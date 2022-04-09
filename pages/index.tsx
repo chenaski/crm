@@ -1,39 +1,10 @@
-import {
-  Box,
-  Button,
-  Card,
-  CardActions,
-  CardContent,
-  Container,
-  CssBaseline,
-  Grid,
-  Link,
-  Typography,
-} from "@mui/material";
+import { Box, Container, CssBaseline } from "@mui/material";
 import type { NextPage } from "next";
 import Head from "next/head";
-import Image from "next/image";
-import styles from "../styles/Home.module.css";
+
+import { SignUp } from "../components/SignUp";
 
 const Home: NextPage = () => {
-  const CardLink = ({ title, description, href }: { title: string; description: string; href: string }) => {
-    return (
-      <Card>
-        <CardContent>
-          <Typography variant="h2" sx={{ fontSize: 20, mb: 1.5 }}>
-            {title}
-          </Typography>
-          <Typography sx={{ fontSize: 14 }}>{description}</Typography>
-        </CardContent>
-        <CardActions>
-          <Button href={href} size="small" target={"_blank"}>
-            Learn More
-          </Button>
-        </CardActions>
-      </Card>
-    );
-  };
-
   return (
     <>
       <CssBaseline />
@@ -44,66 +15,11 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className={styles.container}>
-        <Container component="main" maxWidth="md" sx={{ mt: "auto" }}>
-          <Box sx={{ textAlign: "center" }}>
-            <Typography variant="h1" sx={{ mb: 2 }}>
-              Welcome to <a href="https://nextjs.org">Next.js!</a>
-            </Typography>
-
-            <Typography sx={{ fontSize: 18, mb: 5 }}>
-              Get started by editing <code className={styles.code}>pages/index.tsx</code>
-            </Typography>
-          </Box>
-
-          <Grid container spacing={2}>
-            <Grid item xs={6}>
-              <CardLink
-                href="https://nextjs.org/docs"
-                title={"Documentation \u21A0"}
-                description={"Find in-depth information about Next.js features and API."}
-              ></CardLink>
-            </Grid>
-
-            <Grid item xs={6}>
-              <CardLink
-                href="https://nextjs.org/learn"
-                title={"Learn \u21A0"}
-                description={"Learn about Next.js in an interactive course with quizzes!"}
-              ></CardLink>
-            </Grid>
-
-            <Grid item xs={6}>
-              <CardLink
-                href="https://github.com/vercel/next.js/tree/canary/examples"
-                title={"Examples \u21A0"}
-                description={"Discover and deploy boilerplate example Next.js projects."}
-              ></CardLink>
-            </Grid>
-
-            <Grid item xs={6}>
-              <CardLink
-                href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-                title={"Deploy \u21A0"}
-                description={"Instantly deploy your Next.js site to a public URL with Vercel."}
-              ></CardLink>
-            </Grid>
-          </Grid>
-        </Container>
-
-        <footer className={styles.footer}>
-          <Link
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Powered by{" "}
-            <span className={styles.logo}>
-              <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
-            </span>
-          </Link>
-        </footer>
-      </div>
+      <Container sx={{ p: 6, display: "flex", justifyContent: "center" }}>
+        <Box sx={{ border: 1, borderColor: "grey.300", borderRadius: 2, p: 3 }} maxWidth={500}>
+          <SignUp />
+        </Box>
+      </Container>
     </>
   );
 };
