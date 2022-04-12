@@ -1,9 +1,7 @@
 import { Box, Button, Grid, TextField, Typography } from "@mui/material";
 import React from "react";
 
-import { Nullable, User, UserWithPassword } from "../global";
-
-type SignUpData = Pick<UserWithPassword, "firstName" | "lastName" | "email" | "password">;
+import { Nullable, SignUpData, User, UserWithPassword } from "../global";
 
 export const SignUp = () => {
   const signUp = async (data: Nullable<SignUpData>) => {

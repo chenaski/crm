@@ -12,3 +12,7 @@ export type User = {
 export type UserWithPassword = User & {
   password: string;
 };
+
+export type SignInData = Pick<UserWithPassword, "email" | "password">;
+
+export type SignUpData = Pick<UserWithPassword, "firstName" | "lastName" | "email" | "password">;

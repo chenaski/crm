@@ -1,4 +1,4 @@
-import { User, UserWithPassword } from "../global";
+import { SignInData, SignUpData, User, UserWithPassword } from "../global";
 import { randomUUID } from "crypto";
 import * as fs from "fs/promises";
 
@@ -34,12 +34,7 @@ export class UserStore {
     }
   }
 
-  async create({
-    firstName,
-    lastName,
-    email,
-    password,
-  }: Pick<UserWithPassword, "firstName" | "lastName" | "email"> & { password: "string" }): Promise<UserWithPassword> {
+  async create({ firstName, lastName, email, password }: SignUpData): Promise<UserWithPassword> {
     const user = {
       id: randomUUID(),
       firstName,
@@ -56,7 +51,7 @@ export class UserStore {
     return user;
   }
 
-  async findOne({ email }: { email: string }): Promise<(UserWithPassword & { password: string }) | undefined> {
+  async findOne({ email }: { email: string }): Promise<UserWithPassword | undefined> {
     return this.users.find((user) => user.email === email);
   }
 }
