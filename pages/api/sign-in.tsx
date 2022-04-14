@@ -1,14 +1,17 @@
 import { NextApiRequest, NextApiResponse } from "next";
+
 import { userStore } from "../../core/UserStore";
 import { User } from "../../global";
+import { AUTH_COOKIE } from "../../core/constants";
+import { cookieProcessor } from "../../core/CookieProcessor";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<User | { message: string }>) {
-  console.log(`${req.method} ${req.url}\n`, req.body);
+  console.log(`\n${req.method} ${req.url}\n`, req.body);
 
   await userStore.init();
 
   const { email, password } = req.body;
-  const user = await userStore.findOne({ email });
+  const user = await userStore.findOneByEmail(email);
 
   if (!user) {
     res.status(401).json({ message: "User not found" });
@@ -20,5 +23,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 
   const userWithoutPassword = { ...user, password: undefined };
 
-  res.status(200).json(user);
+  res
+    .status(200)
+    .setHeader(
+      "Set-Cookie",
+      cookieProcessor.getSetCookieHeader(AUTH_COOKIE, user.id, cookieProcessor.getSessionCookieExpirationDate())
+    )
+    .json(userWithoutPassword);
 }

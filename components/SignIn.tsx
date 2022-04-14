@@ -10,6 +10,7 @@ export const SignIn = () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(data),
+      credentials: "include",
     }).then((res) => res.json());
   };
 

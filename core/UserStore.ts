@@ -51,7 +51,11 @@ export class UserStore {
     return user;
   }
 
-  async findOne({ email }: { email: string }): Promise<UserWithPassword | undefined> {
+  async findOneById(id: string): Promise<UserWithPassword | undefined> {
+    return this.users.find((user) => user.id === id);
+  }
+
+  async findOneByEmail(email: string): Promise<UserWithPassword | undefined> {
     return this.users.find((user) => user.email === email);
   }
 }

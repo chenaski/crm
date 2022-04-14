@@ -1,9 +1,12 @@
 import type { NextApiRequest, NextApiResponse } from "next";
+
 import { User } from "../../global";
 import { userStore } from "../../core/UserStore";
+import { AUTH_COOKIE } from "../../core/constants";
+import { cookieProcessor } from "../../core/CookieProcessor";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<User>) {
-  console.log(`${req.method} ${req.url}\n`, req.body);
+  console.log(`\n${req.method} ${req.url}\n`, req.body);
 
   await userStore.init();
 
@@ -15,5 +18,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
   });
   const userWithoutPassword = { ...createdUser, password: undefined };
 
-  res.status(200).json(userWithoutPassword);
+  res
+    .status(200)
+    .setHeader(
+      "Set-Cookie",
+      cookieProcessor.getSetCookieHeader(AUTH_COOKIE, createdUser.id, cookieProcessor.getSessionCookieExpirationDate())
+    )
+    .json(userWithoutPassword);
 }

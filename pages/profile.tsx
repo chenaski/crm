@@ -1,23 +1,35 @@
-import { NextPage } from "next";
-import { Container, CssBaseline } from "@mui/material";
-import Head from "next/head";
+import { GetServerSideProps, NextPage, NextPageContext } from "next";
+
 import { ProfileCard } from "../components/ProfileCard";
+import { Page } from "../components/Page";
+import { User } from "../global";
+import { AUTH_COOKIE } from "../core/constants";
+import { userStore } from "../core/UserStore";
+import { authProcessor } from "../core/AuthProcessor";
 
-const ProfilePage: NextPage = () => {
+export interface ProfilePageProps {
+  user?: User;
+}
+const ProfilePage: NextPage<ProfilePageProps> = ({ user }) => {
+  console.log(user);
+
   return (
-    <>
-      <CssBaseline />
-
-      <Head>
-        <title>Profile</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
-      <Container sx={{ p: 3, display: "flex", justifyContent: "center" }}>
-        <ProfileCard />
-      </Container>
-    </>
+    <Page title={"Profile"}>
+      <ProfileCard />
+    </Page>
   );
+};
+
+export const getServerSideProps: GetServerSideProps<ProfilePageProps> = async ({ res, req }) => {
+  const user = await authProcessor.getUserFromRequest(req);
+
+  if (!user) {
+    res.writeHead(302, { Location: "/sign-up" });
+    res.end();
+    return { props: {} };
+  }
+
+  return { props: { user } };
 };
 
 export default ProfilePage;
