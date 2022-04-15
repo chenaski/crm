@@ -1,21 +1,33 @@
-import { GetServerSideProps, NextPage, NextPageContext } from "next";
+import { useEffect } from "react";
+import { GetServerSideProps, NextPage } from "next";
+import { useRouter } from "next/router";
 
 import { ProfileCard } from "../components/ProfileCard";
 import { Page } from "../components/Page";
 import { User } from "../global";
-import { AUTH_COOKIE } from "../core/constants";
-import { userStore } from "../core/UserStore";
 import { authProcessor } from "../core/AuthProcessor";
 
 export interface ProfilePageProps {
   user?: User;
 }
 const ProfilePage: NextPage<ProfilePageProps> = ({ user }) => {
-  console.log(user);
+  const router = useRouter();
+
+  useEffect(() => {
+    (async () => {
+      if (!user) {
+        await router.replace("/sign-up");
+      }
+    })();
+  }, [user, router]);
+
+  if (!user) {
+    return null;
+  }
 
   return (
     <Page title={"Profile"}>
-      <ProfileCard />
+      <ProfileCard user={user} />
     </Page>
   );
 };
