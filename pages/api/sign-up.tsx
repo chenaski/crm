@@ -1,9 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 
-import { User } from "../../global";
-import { userStore } from "../../core/UserStore";
 import { AUTH_COOKIE } from "../../core/constants";
 import { cookieProcessor } from "../../core/CookieProcessor";
+import { userStore } from "../../core/UserStore";
+import { User } from "../../global";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<User>) {
   console.log(`\n${req.method} ${req.url}\n`, req.body);

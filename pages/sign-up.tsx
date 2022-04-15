@@ -1,10 +1,11 @@
 import { Box } from "@mui/material";
 import type { NextPage } from "next";
-
-import { SignUp } from "../components/SignUp";
-import { Page } from "../components/Page";
 import { GetServerSideProps } from "next";
+
 import { authProcessor } from "../core/AuthProcessor";
+
+import { Page } from "../components/Page";
+import { SignUp } from "../components/SignUp";
 
 const SignUpPage: NextPage = () => {
   return (

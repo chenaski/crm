@@ -1,6 +1,7 @@
-import { SignInData, SignUpData, User, UserWithPassword } from "../global";
 import { randomUUID } from "crypto";
 import * as fs from "fs/promises";
+
+import { SignUpData, UserWithPassword } from "../global";
 
 export class UserStore {
   private static FILE_PATH = "data/users.json";
@@ -17,7 +18,9 @@ export class UserStore {
         if (Array.isArray(users)) {
           this.users = users;
         }
-      } catch (e) {}
+      } catch (e) {
+        console.error(e);
+      }
     }
   }
 

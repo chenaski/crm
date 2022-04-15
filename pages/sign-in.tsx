@@ -1,9 +1,10 @@
-import { GetServerSideProps, NextPage } from "next";
 import { Box } from "@mui/material";
+import { GetServerSideProps, NextPage } from "next";
 
-import { SignIn } from "../components/SignIn";
-import { Page } from "../components/Page";
 import { authProcessor } from "../core/AuthProcessor";
+
+import { Page } from "../components/Page";
+import { SignIn } from "../components/SignIn";
 
 const SignInPage: NextPage = () => {
   return (

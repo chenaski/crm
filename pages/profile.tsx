@@ -1,11 +1,13 @@
-import { useEffect } from "react";
 import { GetServerSideProps, NextPage } from "next";
 import { useRouter } from "next/router";
+import { useEffect } from "react";
 
-import { ProfileCard } from "../components/ProfileCard";
-import { Page } from "../components/Page";
 import { User } from "../global";
+
 import { authProcessor } from "../core/AuthProcessor";
+
+import { Page } from "../components/Page";
+import { ProfileCard } from "../components/ProfileCard";
 
 export interface ProfilePageProps {
   user?: User;

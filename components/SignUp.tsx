@@ -1,7 +1,7 @@
 import { Box, Button, Grid, TextField, Typography } from "@mui/material";
 import React from "react";
 
-import { Nullable, SignUpData, User, UserWithPassword } from "../global";
+import { Nullable, SignUpData } from "../global";
 
 export const SignUp = () => {
   const signUp = async (data: Nullable<SignUpData>) => {

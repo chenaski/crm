@@ -11,6 +11,7 @@ specifiers:
   boring-avatars: ^1.6.3
   eslint: 8.11.0
   eslint-config-next: 12.1.0
+  eslint-plugin-simple-import-sort: ^7.0.0
   husky: ^7.0.4
   lint-staged: ^12.3.7
   next: 12.1.0
@@ -39,6 +40,7 @@ devDependencies:
   '@types/react': 17.0.41
   eslint: 8.11.0
   eslint-config-next: 12.1.0_3ac81353fe98918efb885c3e6be622c2
+  eslint-plugin-simple-import-sort: 7.0.0_eslint@8.11.0
   husky: 7.0.4
   lint-staged: 12.3.7
   prettier: 2.6.2
@@ -1846,6 +1848,14 @@ packages:
       resolve: 2.0.0-next.3
       semver: 6.3.0
       string.prototype.matchall: 4.0.7
+    dev: true
+
+  /eslint-plugin-simple-import-sort/7.0.0_eslint@8.11.0:
+    resolution: {integrity: sha512-U3vEDB5zhYPNfxT5TYR7u01dboFZp+HNpnGhkDB2g/2E4wZ/g1Q9Ton8UwCLfRV9yAKyYqDh62oHOamvkFxsvw==}
+    peerDependencies:
+      eslint: '>=5.0.0'
+    dependencies:
+      eslint: 8.11.0
     dev: true
 
   /eslint-scope/7.1.1:

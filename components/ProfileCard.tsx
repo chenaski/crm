@@ -1,11 +1,12 @@
-import React from "react";
-import { Box, Card, Link as MuiLink, Typography } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
+import { Box, Card, Link as MuiLink, Typography } from "@mui/material";
 import Avatar from "boring-avatars";
 import Link from "next/link";
+import React from "react";
+
+import { User } from "../global";
 
 import { dateProcessor } from "../core/DateProcessor";
-import { User } from "../global";
 
 export interface ProfileCardProps {
   user: User;
