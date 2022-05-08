@@ -1,11 +1,14 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 
 import { AUTH_COOKIE } from "../../core/constants";
-import { cookieProcessor } from "../../core/CookieProcessor";
+import { cookieProcessor } from "../../core/helpers/CookieProcessor";
 import { userStore } from "../../core/UserStore";
 import { User } from "../../global";
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse<User>) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse<{ user: User } | { error: { message: string } }>
+) {
   console.log(`\n${req.method} ${req.url}\n`, req.body);
 
   await userStore.init();
@@ -24,5 +27,5 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
       "Set-Cookie",
       cookieProcessor.getSetCookieHeader(AUTH_COOKIE, createdUser.id, cookieProcessor.getSessionCookieExpirationDate())
     )
-    .json(userWithoutPassword);
+    .json({ user: userWithoutPassword });
 }

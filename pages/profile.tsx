@@ -1,27 +1,15 @@
 import { GetServerSideProps, NextPage } from "next";
-import { useRouter } from "next/router";
-import { useEffect } from "react";
 
-import { User } from "../global";
-
-import { authProcessor } from "../core/AuthProcessor";
+import { AuthProcessor } from "../core/helpers/AuthProcessor";
+import { fetchUser, selectUser } from "../core/store/features/user/userSlice";
+import { useAppSelector } from "../core/store/hooks";
+import { wrapper } from "../core/store/store";
 
 import { Page } from "../components/Page";
 import { ProfileCard } from "../components/ProfileCard";
 
-export interface ProfilePageProps {
-  user?: User;
-}
-const ProfilePage: NextPage<ProfilePageProps> = ({ user }) => {
-  const router = useRouter();
-
-  useEffect(() => {
-    (async () => {
-      if (!user) {
-        await router.replace("/sign-up");
-      }
-    })();
-  }, [user, router]);
+const ProfilePage: NextPage = () => {
+  const user = useAppSelector(selectUser);
 
   if (!user) {
     return null;
@@ -34,16 +22,15 @@ const ProfilePage: NextPage<ProfilePageProps> = ({ user }) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps<ProfilePageProps> = async ({ res, req }) => {
-  const user = await authProcessor.getUserFromRequest(req);
+export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps((store) => async ({ req }) => {
+  const userId = AuthProcessor.getUserIdFromRequest(req);
+  const result = userId ? await store.dispatch(fetchUser(userId)) : null;
 
-  if (!user) {
-    res.writeHead(302, { Location: "/sign-up" });
-    res.end();
-    return { props: {} };
+  if (!result || result?.payload?.error) {
+    return { redirect: { destination: "/sign-up", permanent: false } };
   }
 
-  return { props: { user } };
-};
+  return { props: {} };
+});
 
 export default ProfilePage;

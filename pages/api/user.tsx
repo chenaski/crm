@@ -7,20 +7,17 @@ import { User } from "../../global";
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<{ user: User } | { error: { message: string } }>
+  res: NextApiResponse<User | { error: { message: string } }>
 ) {
   console.log(`\n${req.method} ${req.url}\n`, req.body);
 
   await userStore.init();
 
-  const { email, password } = req.body;
-  const user = await userStore.findOneByEmail(email);
+  const { id } = typeof req.body === "string" ? JSON.parse(req.body) : req.body;
+  const user = await userStore.findOneById(id);
 
   if (!user) {
     res.status(401).json({ error: { message: "User not found" } });
-    return;
-  } else if (user.password !== password) {
-    res.status(401).json({ error: { message: "Wrong password" } });
     return;
   }
 
@@ -32,5 +29,5 @@ export default async function handler(
       "Set-Cookie",
       cookieProcessor.getSetCookieHeader(AUTH_COOKIE, user.id, cookieProcessor.getSessionCookieExpirationDate())
     )
-    .json({ user: userWithoutPassword });
+    .json(userWithoutPassword);
 }

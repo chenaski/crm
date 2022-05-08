@@ -2,7 +2,9 @@ import { Box } from "@mui/material";
 import type { NextPage } from "next";
 import { GetServerSideProps } from "next";
 
-import { authProcessor } from "../core/AuthProcessor";
+import { AuthProcessor } from "../core/helpers/AuthProcessor";
+import { fetchUser } from "../core/store/features/user/userSlice";
+import { wrapper } from "../core/store/store";
 
 import { Page } from "../components/Page";
 import { SignUp } from "../components/SignUp";
@@ -17,19 +19,22 @@ const SignUpPage: NextPage = () => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
-  const user = await authProcessor.getUserFromRequest(req);
+export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps((store) => async ({ req }) => {
+  const userId = AuthProcessor.getUserIdFromRequest(req);
+  const result = userId ? await store.dispatch(fetchUser(userId)) : null;
 
-  if (user) {
-    res.writeHead(302, {
-      Location: "/profile",
-    });
-    res.end();
+  if (result && !result.payload.error) {
+    return {
+      redirect: {
+        destination: "/profile",
+        permanent: false,
+      },
+    };
   }
 
   return {
     props: {},
   };
-};
+});
 
 export default SignUpPage;

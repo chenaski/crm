@@ -6,7 +6,7 @@ import React from "react";
 
 import { User } from "../global";
 
-import { dateProcessor } from "../core/DateProcessor";
+import { dateProcessor } from "../core/helpers/DateProcessor";
 
 export interface ProfileCardProps {
   user: User;

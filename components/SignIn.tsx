@@ -1,19 +1,15 @@
 import { Box, Button, Grid, TextField, Typography } from "@mui/material";
+import { useRouter } from "next/router";
 import React from "react";
 
-import { Nullable, SignInData } from "../global";
+import { SignInData } from "../global";
+
+import { signInUser } from "../core/store/features/user/userSlice";
+import { useAppDispatch } from "../core/store/hooks";
 
 export const SignIn = () => {
-  const signIn = async (data: Nullable<SignInData>) => {
-    return fetch("/api/sign-in", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-      credentials: "include",
-    }).then((res) => res.json());
-  };
+  const router = useRouter();
+  const dispatch = useAppDispatch();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -22,9 +18,11 @@ export const SignIn = () => {
       email: event.currentTarget.email.value,
       password: event.currentTarget.password.value,
     };
-    const result = await signIn(data);
+    const result = await dispatch(signInUser(data));
 
-    console.log(result);
+    if (!result.payload.error) {
+      await router.push("/profile");
+    }
   };
 
   return (

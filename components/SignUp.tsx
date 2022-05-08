@@ -1,32 +1,30 @@
 import { Box, Button, Grid, TextField, Typography } from "@mui/material";
+import { useRouter } from "next/router";
 import React from "react";
 
-import { Nullable, SignUpData } from "../global";
+import { SignUpData } from "../global";
+
+import { signUpUser } from "../core/store/features/user/userSlice";
+import { useAppDispatch } from "../core/store/hooks";
 
 export const SignUp = () => {
-  const signUp = async (data: Nullable<SignUpData>) => {
-    return fetch("/api/sign-up", {
-      body: JSON.stringify(data),
-      headers: {
-        "Content-Type": "application/json",
-      },
-      method: "POST",
-    }).then((res) => res.json());
-  };
+  const router = useRouter();
+  const dispatch = useAppDispatch();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const data = new FormData(event.currentTarget);
     const signUpData: SignUpData = {
-      firstName: data.get("first-name") as string,
-      lastName: data.get("last-name") as string,
-      email: data.get("email") as string,
-      password: data.get("password") as string,
+      firstName: event.currentTarget["first-name"].value,
+      lastName: event.currentTarget["last-name"].value,
+      email: event.currentTarget.email.value,
+      password: event.currentTarget.password.value,
     };
-    const result = await signUp(signUpData);
+    const result = await dispatch(signUpUser(signUpData));
 
-    console.log(result);
+    if (!result.payload.error) {
+      await router.push("/profile");
+    }
   };
 
   return (
