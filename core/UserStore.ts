@@ -1,7 +1,7 @@
 import { randomUUID } from "crypto";
 import * as fs from "fs/promises";
 
-import { SignUpData, UserWithPassword } from "../global";
+import { SignUpData, UserWithPassword } from "~/global";
 
 export class UserStore {
   private static FILE_PATH = "data/users.json";

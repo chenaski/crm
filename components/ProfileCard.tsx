@@ -4,9 +4,9 @@ import Avatar from "boring-avatars";
 import Link from "next/link";
 import React from "react";
 
-import { User } from "../global";
+import { User } from "~/global";
 
-import { dateProcessor } from "../core/helpers/DateProcessor";
+import { dateProcessor } from "~/core/helpers/DateProcessor";
 
 export interface ProfileCardProps {
   user: User;

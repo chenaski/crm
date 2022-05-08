@@ -1,8 +1,16 @@
 {
-  "extends": ["eslint:recommended", "next/core-web-vitals", "plugin:import/recommended"],
+  "root": true,
+  "extends": ["next/core-web-vitals", "eslint:recommended"],
   "plugins": ["simple-import-sort"],
   "rules": {
     "prefer-const": 2,
+    "import/no-unresolved": 2,
+    "no-restricted-imports": [
+      2,
+      {
+        "patterns": [".*"]
+      }
+    ],
     "simple-import-sort/imports": [
       2,
       {
@@ -10,9 +18,10 @@
           ["^\\u0000"],
           ["^@?\\w"],
           ["^\\.\\."],
-          ["^\\.\\./core"],
-          ["^\\.\\./pages"],
-          ["^\\.\\./components"],
+          ["^~"],
+          ["^~/core"],
+          ["^~/pages"],
+          ["^~/components"],
           ["^\\."]
         ]
       }

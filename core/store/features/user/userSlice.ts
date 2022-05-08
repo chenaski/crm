@@ -1,8 +1,9 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-import { Nullable, SignInData, SignUpData, User } from "../../../../global";
-import { HYDRATE } from "../../../constants";
-import { RootState } from "../../store";
+import { Nullable, SignInData, SignUpData, User } from "~/global";
+
+import { HYDRATE } from "~/core/constants";
+import { RootState } from "~/core/store/store";
 
 interface UserState {
   user: User | null;

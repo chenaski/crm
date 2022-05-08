@@ -1,12 +1,12 @@
 import { Box } from "@mui/material";
 import { GetServerSideProps, NextPage } from "next";
 
-import { AuthProcessor } from "../core/helpers/AuthProcessor";
-import { fetchUser } from "../core/store/features/user/userSlice";
-import { wrapper } from "../core/store/store";
+import { AuthProcessor } from "~/core/helpers/AuthProcessor";
+import { fetchUser } from "~/core/store/features/user/userSlice";
+import { wrapper } from "~/core/store/store";
 
-import { Page } from "../components/Page";
-import { SignIn } from "../components/SignIn";
+import { Page } from "~/components/Page";
+import { SignIn } from "~/components/SignIn";
 
 const SignInPage: NextPage = () => {
   return (

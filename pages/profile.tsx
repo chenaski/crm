@@ -1,12 +1,12 @@
 import { GetServerSideProps, NextPage } from "next";
 
-import { AuthProcessor } from "../core/helpers/AuthProcessor";
-import { fetchUser, selectUser } from "../core/store/features/user/userSlice";
-import { useAppSelector } from "../core/store/hooks";
-import { wrapper } from "../core/store/store";
+import { AuthProcessor } from "~/core/helpers/AuthProcessor";
+import { fetchUser, selectUser } from "~/core/store/features/user/userSlice";
+import { useAppSelector } from "~/core/store/hooks";
+import { wrapper } from "~/core/store/store";
 
-import { Page } from "../components/Page";
-import { ProfileCard } from "../components/ProfileCard";
+import { Page } from "~/components/Page";
+import { ProfileCard } from "~/components/ProfileCard";
 
 const ProfilePage: NextPage = () => {
   const user = useAppSelector(selectUser);

@@ -1,9 +1,10 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 
-import { AUTH_COOKIE } from "../../core/constants";
-import { cookieProcessor } from "../../core/helpers/CookieProcessor";
-import { userStore } from "../../core/UserStore";
-import { User } from "../../global";
+import { User } from "~/global";
+
+import { AUTH_COOKIE } from "~/core/constants";
+import { cookieProcessor } from "~/core/helpers/CookieProcessor";
+import { userStore } from "~/core/UserStore";
 
 export default async function handler(
   req: NextApiRequest,

@@ -1,8 +1,9 @@
 import { GetServerSidePropsContext } from "next/types";
 
-import { User } from "../../global";
-import { AUTH_COOKIE } from "../constants";
-import { userStore } from "../UserStore";
+import { User } from "~/global";
+
+import { AUTH_COOKIE } from "~/core/constants";
+import { userStore } from "~/core/UserStore";
 
 export class AuthProcessor {
   static getUserIdFromRequest(req: GetServerSidePropsContext["req"]): string | undefined {

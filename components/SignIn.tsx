@@ -2,10 +2,10 @@ import { Box, Button, Grid, TextField, Typography } from "@mui/material";
 import { useRouter } from "next/router";
 import React from "react";
 
-import { SignInData } from "../global";
+import { SignInData } from "~/global";
 
-import { signInUser } from "../core/store/features/user/userSlice";
-import { useAppDispatch } from "../core/store/hooks";
+import { signInUser } from "~/core/store/features/user/userSlice";
+import { useAppDispatch } from "~/core/store/hooks";
 
 export const SignIn = () => {
   const router = useRouter();
