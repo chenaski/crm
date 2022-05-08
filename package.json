@@ -2,7 +2,7 @@
   "name": "crm",
   "version": "0.1.0",
   "private": true,
-  "packageManager": "pnpm@6.32.3",
+  "packageManager": "pnpm@7.0.1",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -19,18 +19,18 @@
     "*.css": "stylelint --fix"
   },
   "dependencies": {
-    "@babel/core": "^7.17.8",
-    "@emotion/react": "^11.8.2",
+    "@babel/core": "^7.17.10",
+    "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",
-    "@mui/icons-material": "^5.6.1",
-    "@mui/material": "^5.5.3",
+    "@mui/icons-material": "^5.6.2",
+    "@mui/material": "^5.6.4",
     "@reduxjs/toolkit": "^1.8.1",
     "boring-avatars": "^1.6.3",
     "next": "12.1.0",
     "next-redux-wrapper": "^7.0.5",
     "react": "17.0.2",
     "react-dom": "17.0.2",
-    "react-redux": "^8.0.0"
+    "react-redux": "^8.0.1"
   },
   "devDependencies": {
     "@types/node": "17.0.22",
@@ -40,9 +40,9 @@
     "eslint-config-next": "12.1.0",
     "eslint-plugin-simple-import-sort": "^7.0.0",
     "husky": "^7.0.4",
-    "lint-staged": "^12.3.7",
+    "lint-staged": "^12.4.1",
     "prettier": "^2.6.2",
-    "stylelint": "^14.6.1",
+    "stylelint": "^14.8.2",
     "stylelint-config-rational-order": "^0.1.2",
     "stylelint-config-standard": "^25.0.0",
     "stylelint-order": "^5.0.0",
