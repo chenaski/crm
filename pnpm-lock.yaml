@@ -17,7 +17,7 @@ specifiers:
   husky: ^7.0.4
   lint-staged: ^12.4.1
   next: 12.1.0
-  next-redux-wrapper: ^7.0.5
+  next-redux-wrapper: 8.0.0-rc.1
   prettier: ^2.6.2
   react: 17.0.2
   react-dom: 17.0.2
@@ -37,7 +37,7 @@ dependencies:
   '@reduxjs/toolkit': 1.8.1_5pkls4ykqn3fjecvle55rtusye
   boring-avatars: 1.6.3
   next: 12.1.0_tmacpkxga3bcx5k2p7mjqnxqbe
-  next-redux-wrapper: 7.0.5_g5zmnakmen7q7r5bhujwzqiqnq
+  next-redux-wrapper: 8.0.0-rc.1_g5zmnakmen7q7r5bhujwzqiqnq
   react: 17.0.2
   react-dom: 17.0.2_react@17.0.2
   react-redux: 8.0.1_iii63czga2p6yg6i75dft5ao7q
@@ -3433,10 +3433,10 @@ packages:
     resolution: {integrity: sha1-Sr6/7tdUHywnrPspvbvRXI1bpPc=}
     dev: true
 
-  /next-redux-wrapper/7.0.5_g5zmnakmen7q7r5bhujwzqiqnq:
-    resolution: {integrity: sha512-UFXdAWG5i+GFT8+Hoqpx3GArkPh34fVWF9YoA2VSHlBzsrPtnRd7NWM6FNSYUennpommTpWJ09mu+r/1UxyIkg==}
+  /next-redux-wrapper/8.0.0-rc.1_g5zmnakmen7q7r5bhujwzqiqnq:
+    resolution: {integrity: sha512-UJfKG5lfieU4kAzi4mDNrDrmWbgO9XfgcXcvnvixL1EyK31hr2m0X5x1YTNOvDg6CK9iPXWwl8izX9JjC79vLg==}
     peerDependencies:
-      next: '>=10.0.3'
+      next: '>=9'
       react: '*'
       react-redux: '*'
     dependencies:
