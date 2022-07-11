@@ -24,9 +24,14 @@ const ProfilePage: NextPage = () => {
 
 export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps((store) => async ({ req }) => {
   const userId = AuthProcessor.getUserIdFromRequest(req);
-  const result = userId ? await store.dispatch(fetchUser(userId)) : null;
 
-  if (!result || result?.payload?.error) {
+  if (userId) {
+    await store.dispatch(fetchUser({ id: userId, cookie: AuthProcessor.buildAuthCookie(userId) }));
+  }
+
+  const { user } = store.getState();
+
+  if (!user.isLoggedIn) {
     return { redirect: { destination: "/sign-up", permanent: false } };
   }
 

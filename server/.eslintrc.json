@@ -1,0 +1,41 @@
+{
+  "root": true,
+  "extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended"],
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint", "import", "simple-import-sort"],
+  "settings": {
+    "import/resolver": {
+      "typescript": {
+        "alwaysTryTypes": true
+      }
+    }
+  },
+  "rules": {
+    "prefer-const": 2,
+    "import/no-unresolved": 2,
+    "no-restricted-imports": [
+      2,
+      {
+        "patterns": [".*"]
+      }
+    ],
+    "simple-import-sort/imports": [
+      2,
+      {
+        "groups": [
+          ["^\\u0000"],
+          ["^@?\\w"],
+          ["^\\.\\."],
+          ["^~"],
+          ["^~/constants"],
+          ["^~/dto"],
+          ["^~/routes"],
+          ["^~/stores"],
+          ["^~/helpers"],
+          ["^\\."]
+        ]
+      }
+    ],
+    "simple-import-sort/exports": 2
+  }
+}

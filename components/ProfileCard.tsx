@@ -4,12 +4,10 @@ import Avatar from "boring-avatars";
 import Link from "next/link";
 import React from "react";
 
-import { User } from "~/global";
-
-import { dateProcessor } from "~/core/helpers/DateProcessor";
+import { ClientUser } from "~/core/store/features/user/userSlice";
 
 export interface ProfileCardProps {
-  user: User;
+  user: ClientUser;
 }
 export const ProfileCard: React.FC<ProfileCardProps> = ({ user }) => {
   return (
@@ -25,7 +23,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({ user }) => {
           alignItems: "center",
         }}
       >
-        Updated {dateProcessor.getDateSince(new Date(user.createdAt))}
+        Updated {user.timeSinceLastUpdate}
         <EditIcon sx={{ ml: 1, fontSize: 14, position: "relative", top: 1 }} />
         <Link href={"/profile/edit"} passHref={true}>
           <MuiLink

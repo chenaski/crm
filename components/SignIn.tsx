@@ -1,29 +1,34 @@
 import { Box, Button, Grid, TextField, Typography } from "@mui/material";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useEffect } from "react";
 
-import { SignInData } from "~/global";
+import { SignInInput } from "~/server/dto/sign-in-input";
 
-import { signInUser } from "~/core/store/features/user/userSlice";
-import { useAppDispatch } from "~/core/store/hooks";
+import { selectError, selectIsLoggedIn, signInUser } from "~/core/store/features/user/userSlice";
+import { useAppDispatch, useAppSelector } from "~/core/store/hooks";
 
 export const SignIn = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
+  const isLoggedIn = useAppSelector(selectIsLoggedIn);
+  const error = useAppSelector(selectError);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const data: SignInData = {
+    const data: SignInInput = {
       email: event.currentTarget.email.value,
       password: event.currentTarget.password.value,
     };
-    const result = await dispatch(signInUser(data));
 
-    if (!result.payload.error) {
-      await router.push("/profile");
-    }
+    await dispatch(signInUser(data));
   };
+
+  useEffect(() => {
+    (async () => {
+      isLoggedIn && (await router.push("/profile"));
+    })();
+  }, [router, isLoggedIn]);
 
   return (
     <>
@@ -46,6 +51,12 @@ export const SignIn = () => {
             Sign In
           </Button>
         </Box>
+
+        {error && (
+          <Typography mt={2} fontSize={14} color={"error.main"}>
+            {error}
+          </Typography>
+        )}
       </Box>
     </>
   );

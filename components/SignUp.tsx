@@ -1,31 +1,35 @@
 import { Box, Button, Grid, TextField, Typography } from "@mui/material";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useEffect } from "react";
 
-import { SignUpData } from "~/global";
+import { SignUpInput } from "~/server/dto/sign-up-input";
 
-import { signUpUser } from "~/core/store/features/user/userSlice";
-import { useAppDispatch } from "~/core/store/hooks";
+import { selectIsLoggedIn, signUpUser } from "~/core/store/features/user/userSlice";
+import { useAppDispatch, useAppSelector } from "~/core/store/hooks";
 
 export const SignUp = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
+  const isLoggedIn = useAppSelector(selectIsLoggedIn);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const signUpData: SignUpData = {
+    const signUpData: SignUpInput = {
       firstName: event.currentTarget["first-name"].value,
       lastName: event.currentTarget["last-name"].value,
       email: event.currentTarget.email.value,
       password: event.currentTarget.password.value,
     };
-    const result = await dispatch(signUpUser(signUpData));
 
-    if (!result.payload.error) {
-      await router.push("/profile");
-    }
+    await dispatch(signUpUser(signUpData));
   };
+
+  useEffect(() => {
+    (async () => {
+      isLoggedIn && (await router.push("/profile"));
+    })();
+  }, [router, isLoggedIn]);
 
   return (
     <>

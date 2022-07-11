@@ -1,10 +1,12 @@
 import { randomUUID } from "crypto";
 import * as fs from "fs/promises";
+import path from "path";
 
-import { SignUpData, UserWithPassword } from "~/global";
+import { SignUpInput } from "~/dto/sign-up-input";
+import { UserWithPassword } from "~/dto/user";
 
 export class UserStore {
-  private static FILE_PATH = "data/users.json";
+  private static FILE_PATH = path.resolve(__dirname, "../data/users.json");
   private users: UserWithPassword[] = [];
 
   async init() {
@@ -37,7 +39,7 @@ export class UserStore {
     }
   }
 
-  async create({ firstName, lastName, email, password }: SignUpData): Promise<UserWithPassword> {
+  async create({ firstName, lastName, email, password }: SignUpInput): Promise<UserWithPassword> {
     const user = {
       id: randomUUID(),
       firstName,
