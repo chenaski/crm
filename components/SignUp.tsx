@@ -4,13 +4,14 @@ import React, { useEffect } from "react";
 
 import { SignUpInput } from "~/server/dto/sign-up-input";
 
-import { selectIsLoggedIn, signUpUser } from "~/core/store/features/user/userSlice";
+import { selectError, selectIsLoggedIn, setError, signUpUser } from "~/core/store/features/user/userSlice";
 import { useAppDispatch, useAppSelector } from "~/core/store/hooks";
 
 export const SignUp = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
+  const error = useAppSelector(selectError);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -23,6 +24,10 @@ export const SignUp = () => {
     };
 
     await dispatch(signUpUser(signUpData));
+  };
+
+  const onChange = () => {
+    dispatch(setError(null));
   };
 
   useEffect(() => {
@@ -40,19 +45,19 @@ export const SignUp = () => {
       <Box component={"form"} sx={{ mt: 3 }} onSubmit={handleSubmit}>
         <Grid container spacing={2}>
           <Grid item xs={12} sm={6}>
-            <TextField name="first-name" label="First Name" required fullWidth autoFocus />
+            <TextField name="first-name" label="First Name" required fullWidth autoFocus onChange={onChange} />
           </Grid>
 
           <Grid item xs={12} sm={6}>
-            <TextField name="last-name" label="Last Name" required fullWidth />
+            <TextField name="last-name" label="Last Name" required fullWidth onChange={onChange} />
           </Grid>
 
           <Grid item xs={12}>
-            <TextField name="email" label="Email" type="email" required fullWidth />
+            <TextField name="email" label="Email" type="email" required fullWidth onChange={onChange} />
           </Grid>
 
           <Grid item xs={12}>
-            <TextField name="password" label="Password" type="password" required fullWidth />
+            <TextField name="password" label="Password" type="password" required fullWidth onChange={onChange} />
           </Grid>
         </Grid>
 
@@ -61,6 +66,12 @@ export const SignUp = () => {
             Sign Up
           </Button>
         </Box>
+
+        {error && (
+          <Typography mt={2} fontSize={14} color={"error.main"}>
+            {error}
+          </Typography>
+        )}
       </Box>
     </>
   );

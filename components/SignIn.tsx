@@ -4,7 +4,7 @@ import React, { useEffect } from "react";
 
 import { SignInInput } from "~/server/dto/sign-in-input";
 
-import { selectError, selectIsLoggedIn, signInUser } from "~/core/store/features/user/userSlice";
+import { selectError, selectIsLoggedIn, setError, signInUser } from "~/core/store/features/user/userSlice";
 import { useAppDispatch, useAppSelector } from "~/core/store/hooks";
 
 export const SignIn = () => {
@@ -24,6 +24,10 @@ export const SignIn = () => {
     await dispatch(signInUser(data));
   };
 
+  const onChange = () => {
+    dispatch(setError(null));
+  };
+
   useEffect(() => {
     (async () => {
       isLoggedIn && (await router.push("/profile"));
@@ -39,10 +43,10 @@ export const SignIn = () => {
       <Box component={"form"} sx={{ mt: 3 }} onSubmit={handleSubmit}>
         <Grid container spacing={2}>
           <Grid item xs={12}>
-            <TextField label={"Email"} name={"email"} type={"email"} fullWidth autoFocus />
+            <TextField label={"Email"} name={"email"} type={"email"} fullWidth autoFocus onChange={onChange} />
           </Grid>
           <Grid item xs={12}>
-            <TextField label={"Password"} name={"password"} type={"password"} fullWidth />
+            <TextField label={"Password"} name={"password"} type={"password"} fullWidth onChange={onChange} />
           </Grid>
         </Grid>
 

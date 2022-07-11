@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 import { Nullable } from "~/global";
 import { Error } from "~/server/dto/error";
@@ -10,6 +10,7 @@ import { User } from "~/server/dto/user";
 import { HYDRATE } from "~/core/constants";
 import { dateProcessor } from "~/core/helpers/DateProcessor";
 import { ServerProcessor } from "~/core/helpers/ServerProcessor";
+import { withPayloadType } from "~/core/store/helpers/withPayloadType";
 import { RootState } from "~/core/store/store";
 
 export type ClientUser = User & { timeSinceLastUpdate: string };
@@ -96,8 +97,17 @@ export const userSlice = createSlice({
         ...handleAuthResponse(action.payload),
       };
     });
+
+    builder.addCase(setError, (state, action) => {
+      return {
+        ...state,
+        error: action.payload,
+      };
+    });
   },
 });
+
+export const setError = createAction("setError", withPayloadType<UserState["error"]>());
 
 export const signUpUser = createAsyncThunk("/sign-up", async (data: Nullable<SignUpInput>) => {
   return await fetch(ServerProcessor.buildPath("/sign-up"), {
