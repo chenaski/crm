@@ -2,7 +2,7 @@ import { FastifyInstance } from "fastify";
 
 import { AUTH_COOKIE } from "~/constants";
 
-import { ErrorSchema } from "~/dto/error";
+import { ServerErrorSchema } from "~/dto/server-error";
 import { SignUpInput, SignUpInputSchema } from "~/dto/sign-up-input";
 import { SignUpReply, SignUpReplySchema } from "~/dto/sign-up-reply";
 
@@ -18,7 +18,7 @@ export async function signUpRoutes(server: FastifyInstance) {
         body: SignUpInputSchema,
         response: {
           200: SignUpReplySchema,
-          401: ErrorSchema,
+          401: ServerErrorSchema,
         },
       },
     },

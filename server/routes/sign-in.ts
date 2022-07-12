@@ -2,7 +2,7 @@ import { FastifyInstance } from "fastify";
 
 import { AUTH_COOKIE } from "~/constants";
 
-import { Error, ErrorSchema } from "~/dto/error";
+import { ServerError, ServerErrorSchema } from "~/dto/server-error";
 import { SignInInput, SignInInputSchema } from "~/dto/sign-in-input";
 import { SignInReply, SignInReplySchema } from "~/dto/sign-in-reply";
 
@@ -11,14 +11,14 @@ import { userStore } from "~/stores/UserStore";
 import { cookieProcessor } from "~/helpers/CookieProcessor";
 
 export async function signInRoutes(server: FastifyInstance) {
-  server.post<{ Body: SignInInput; Reply: SignInReply | Error }>(
+  server.post<{ Body: SignInInput; Reply: SignInReply | ServerError }>(
     "/sign-in",
     {
       schema: {
         body: SignInInputSchema,
         response: {
           200: SignInReplySchema,
-          401: ErrorSchema,
+          401: ServerErrorSchema,
         },
       },
     },

@@ -1,7 +1,7 @@
 import { createAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 import { Nullable } from "~/global";
-import { Error } from "~/server/dto/error";
+import { ServerError } from "~/server/dto/server-error";
 import { SignInInput } from "~/server/dto/sign-in-input";
 import { SignInReply } from "~/server/dto/sign-in-reply";
 import { SignUpInput } from "~/server/dto/sign-up-input";
@@ -37,8 +37,8 @@ const formatUser = (user: User): ClientUser => {
 };
 
 const handleAuthResponse = (response: unknown): UserState => {
-  const isErrorResponse = (response: unknown): response is Error => {
-    return !!(response as Error)?.error?.message;
+  const isErrorResponse = (response: unknown): response is ServerError => {
+    return !!(response as ServerError)?.error?.message;
   };
   const isSuccessResponse = (response: unknown): response is SignInReply => {
     return !!(response as SignInReply)?.user;

@@ -3,7 +3,7 @@ import { FastifyInstance } from "fastify";
 
 import { AUTH_COOKIE } from "~/constants";
 
-import { Error, ErrorSchema } from "~/dto/error";
+import { ServerError, ServerErrorSchema } from "~/dto/server-error";
 import { UserReply, UserReplySchema } from "~/dto/user-reply";
 
 import { userStore } from "~/stores/UserStore";
@@ -14,14 +14,14 @@ const ParamsSchema = Type.Object({ id: Type.String() });
 type Params = Static<typeof ParamsSchema>;
 
 export async function userRoutes(server: FastifyInstance) {
-  server.get<{ Reply: UserReply | Error; Params: Params }>(
+  server.get<{ Reply: UserReply | ServerError; Params: Params }>(
     "/user/:id",
     {
       schema: {
         params: ParamsSchema,
         response: {
           200: UserReplySchema,
-          401: ErrorSchema,
+          401: ServerErrorSchema,
         },
       },
     },

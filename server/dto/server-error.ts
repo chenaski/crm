@@ -1,8 +1,8 @@
 import { Static, Type } from "@sinclair/typebox";
 
-export const ErrorSchema = Type.Object({
+export const ServerErrorSchema = Type.Object({
   error: Type.Object({
     message: Type.String(),
   }),
 });
-export type Error = Static<typeof ErrorSchema>;
+export type ServerError = Static<typeof ServerErrorSchema>;
