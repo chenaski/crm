@@ -29,7 +29,6 @@ export async function userRoutes(server: FastifyInstance) {
       await userStore.init();
 
       const { uid } = request.cookies;
-      console.log(uid, request.headers);
 
       if (!uid) {
         reply.status(401);

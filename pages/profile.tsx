@@ -1,7 +1,9 @@
 import { GetServerSideProps, NextPage } from "next";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 
 import { AuthProcessor } from "~/core/helpers/AuthProcessor";
-import { fetchUser, selectUser } from "~/core/store/features/user/userSlice";
+import { fetchUser, selectIsLoggedIn, selectUser } from "~/core/store/features/user/userSlice";
 import { useAppSelector } from "~/core/store/hooks";
 import { wrapper } from "~/core/store/store";
 
@@ -9,17 +11,17 @@ import { Page } from "~/components/Page";
 import { ProfileCard } from "~/components/ProfileCard";
 
 const ProfilePage: NextPage = () => {
+  const router = useRouter();
   const user = useAppSelector(selectUser);
+  const isLoggedIn = useAppSelector(selectIsLoggedIn);
 
-  if (!user) {
-    return null;
-  }
+  useEffect(() => {
+    (async () => {
+      !isLoggedIn && (await router.push("/sign-up"));
+    })();
+  }, [isLoggedIn, router]);
 
-  return (
-    <Page title={"Profile"}>
-      <ProfileCard user={user} />
-    </Page>
-  );
+  return <Page title={"Profile"}>{user && <ProfileCard user={user} />}</Page>;
 };
 
 export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps((store) => async ({ req }) => {

@@ -4,6 +4,7 @@ import { TypeBoxTypeProvider } from "@fastify/type-provider-typebox";
 import fastify from "fastify";
 
 import { signInRoutes } from "~/routes/sign-in";
+import { signOutRoutes } from "~/routes/sign-out";
 import { signUpRoutes } from "~/routes/sign-up";
 import { userRoutes } from "~/routes/user";
 
@@ -21,6 +22,7 @@ server.register(fastifyCookiePlugin);
 
 server.register(signInRoutes);
 server.register(signUpRoutes);
+server.register(signOutRoutes);
 server.register(userRoutes);
 
 server.listen({ port: 8080 }, (err, address) => {

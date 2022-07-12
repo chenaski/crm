@@ -6,6 +6,7 @@ import { SignInInput } from "~/server/dto/sign-in-input";
 import { SignInReply } from "~/server/dto/sign-in-reply";
 import { SignUpInput } from "~/server/dto/sign-up-input";
 import { User } from "~/server/dto/user";
+import { UserReply } from "~/server/dto/user-reply";
 
 import { HYDRATE } from "~/core/constants";
 import { dateProcessor } from "~/core/helpers/DateProcessor";
@@ -36,10 +37,11 @@ const formatUser = (user: User): ClientUser => {
   return clientUser;
 };
 
+const isErrorResponse = (response: unknown): response is ServerError => {
+  return !!(response as ServerError)?.error?.message;
+};
+
 const handleAuthResponse = (response: unknown): UserState => {
-  const isErrorResponse = (response: unknown): response is ServerError => {
-    return !!(response as ServerError)?.error?.message;
-  };
   const isSuccessResponse = (response: unknown): response is SignInReply => {
     return !!(response as SignInReply)?.user;
   };
@@ -101,6 +103,18 @@ export const userSlice = createSlice({
       };
     });
 
+    builder.addCase(signOutUser.fulfilled, (state, action) => {
+      if (isErrorResponse(action) || !action) {
+        return state;
+      }
+
+      return {
+        user: null,
+        isLoggedIn: false,
+        error: null,
+      };
+    });
+
     builder.addCase(fetchUser.fulfilled, (state, action) => {
       return {
         ...state,
@@ -119,20 +133,23 @@ export const userSlice = createSlice({
 
 export const setError = createAction("setError", withPayloadType<UserState["error"]>());
 
-export const signUpUser = createAsyncThunk("/sign-up", async (data: Nullable<SignUpInput>) => {
-  return await fetch(ServerProcessor.buildPath("/sign-up"), {
-    method: "post",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
-    credentials: "include",
-  })
-    .then((res) => res.json())
-    .catch(handleServerError);
-});
+export const signUpUser = createAsyncThunk(
+  "/sign-up",
+  async (data: Nullable<SignUpInput>): Promise<ServerError | UserReply> => {
+    return await fetch(ServerProcessor.buildPath("/sign-up"), {
+      method: "post",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+      credentials: "include",
+    })
+      .then((res) => res.json())
+      .catch(handleServerError);
+  }
+);
 
-export const signInUser = createAsyncThunk("/sign-in", async (data: SignInInput) => {
+export const signInUser = createAsyncThunk("/sign-in", async (data: SignInInput): Promise<ServerError | UserReply> => {
   return await fetch(ServerProcessor.buildPath("/sign-in"), {
     method: "post",
     headers: {
@@ -145,18 +162,33 @@ export const signInUser = createAsyncThunk("/sign-in", async (data: SignInInput)
     .catch(handleServerError);
 });
 
-export const fetchUser = createAsyncThunk("/user", async ({ id, cookie }: { id: string; cookie: string }) => {
-  return await fetch(ServerProcessor.buildPath(`/user/${id}`), {
+export const signOutUser = createAsyncThunk("/sign-out", async (): Promise<ServerError | boolean> => {
+  return await fetch(ServerProcessor.buildPath("/sign-out"), {
     method: "get",
     headers: {
       "Content-Type": "application/json",
-      Cookie: cookie,
     },
     credentials: "include",
   })
     .then((res) => res.json())
     .catch(handleServerError);
 });
+
+export const fetchUser = createAsyncThunk(
+  "/user",
+  async ({ id, cookie }: { id: string; cookie: string }): Promise<ServerError | UserReply> => {
+    return await fetch(ServerProcessor.buildPath(`/user/${id}`), {
+      method: "get",
+      headers: {
+        "Content-Type": "application/json",
+        Cookie: cookie,
+      },
+      credentials: "include",
+    })
+      .then((res) => res.json())
+      .catch(handleServerError);
+  }
+);
 
 export const userReducer = userSlice.reducer;
 
