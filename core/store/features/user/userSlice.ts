@@ -65,6 +65,16 @@ const handleAuthResponse = (response: unknown): UserState => {
   }
 };
 
+const handleServerError = (err: unknown) => {
+  const error: ServerError = {
+    error: {
+      message: err instanceof Error ? `${err.message}.` : "Something went wrong.",
+    },
+  };
+
+  return error;
+};
+
 export const userSlice = createSlice({
   name: "user",
   initialState,
@@ -117,7 +127,9 @@ export const signUpUser = createAsyncThunk("/sign-up", async (data: Nullable<Sig
     },
     body: JSON.stringify(data),
     credentials: "include",
-  }).then((res) => res.json());
+  })
+    .then((res) => res.json())
+    .catch(handleServerError);
 });
 
 export const signInUser = createAsyncThunk("/sign-in", async (data: SignInInput) => {
@@ -128,7 +140,9 @@ export const signInUser = createAsyncThunk("/sign-in", async (data: SignInInput)
     },
     body: JSON.stringify(data),
     credentials: "include",
-  }).then((res) => res.json());
+  })
+    .then((res) => res.json())
+    .catch(handleServerError);
 });
 
 export const fetchUser = createAsyncThunk("/user", async ({ id, cookie }: { id: string; cookie: string }) => {
@@ -139,7 +153,9 @@ export const fetchUser = createAsyncThunk("/user", async ({ id, cookie }: { id: 
       Cookie: cookie,
     },
     credentials: "include",
-  }).then((res) => res.json());
+  })
+    .then((res) => res.json())
+    .catch(handleServerError);
 });
 
 export const userReducer = userSlice.reducer;
